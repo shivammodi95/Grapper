@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "140022836220",
+    "firebase_url": "https://grapper-45423.firebaseio.com",
+    "project_id": "grapper-45423",
+    "storage_bucket": "grapper-45423.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140022836220:android:09fcfb52a2fc1ee5",
+        "android_client_info": {
+          "package_name": "com.android.grapper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140022836220-62q56ardbinhlpjni2gucdp9duoa4toj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.grapper",
+            "certificate_hash": "8071e345e642e9414f66ce7d148593d03e5a9c93"
+          }
+        },
+        {
+          "client_id": "140022836220-3aule4d4l4h5qdaolon460d57vi6hrh9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWSLrtJV9Q4vYEIrbBZwp0Z8IgcFr2d2g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140022836220-3aule4d4l4h5qdaolon460d57vi6hrh9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
