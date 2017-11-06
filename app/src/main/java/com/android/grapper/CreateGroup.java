@@ -39,6 +39,7 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
     DatabaseReference myRef;
     DatabaseReference myRef2;
     String code;
+    int counter;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -47,6 +48,7 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
     List<MyAdapterDataSet> x= new ArrayList<MyAdapterDataSet>(2);
 
     Button mMapButton;
+    Button mLeaveGroup;
 
 
 
@@ -115,6 +117,7 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
                     String name = dataSnapshot.child("Name").getValue().toString();
                     MyAdapterDataSet n = new MyAdapterDataSet(name);
                     x.add(n);
+
                 mAdapter = new MyAdapter(x);
 
                 mRecyclerView.setAdapter(mAdapter);
@@ -129,7 +132,16 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String namee = dataSnapshot.child("Name").getValue().toString();
+                for(int i=0;i<x.size();i++)
+                {
+                    if(x.get(i).name.equals(namee)){
+                        x.remove(i);
+                    }
+                }
+                mAdapter = new MyAdapter(x);
 
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override
@@ -179,6 +191,15 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
                 startActivity(i);
             }
         });
+
+        mLeaveGroup=(Button)findViewById(R.id.leaveGroup);
+        mLeaveGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myRef.child(mUID).removeValue();
+                startActivity(new Intent(CreateGroup.this,StartActivity.class));
+            }
+        });
     }
 
 
@@ -215,5 +236,8 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
         mGoogleApiClient.disconnect();
         super.onStop();
     }
+
+    @Override
+    public void onBackPressed(){}
 
 }

@@ -45,7 +45,7 @@ public class StartActivity extends AppCompatActivity {
 
 
         TextView x=findViewById(R.id.printName);
-        x.setText("Hello "+user.getDisplayName()+"\n");
+        x.setText("Hi! "+user.getDisplayName()+"\n");
 
         mLogout= (Button)findViewById(R.id.logOut);
         mJoinGroup = (Button)findViewById(R.id.joinGroup);
@@ -59,6 +59,7 @@ public class StartActivity extends AppCompatActivity {
 
 
                         startActivity(i);
+
                     }
         });
 
@@ -66,6 +67,7 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(StartActivity.this, JoinGroup.class));
+
             }
         });
 
@@ -79,11 +81,14 @@ public class StartActivity extends AppCompatActivity {
 
 
     }
+
+
+
     String getRndom(){
         String r = "";
-        for(int i=0;i<8;i++)
+        for(int i=0;i<6;i++)
         {
-            r+=(char)(Math.random()*26+97);
+            r+=(char)(Math.random()*26+65);
         }
         return r;
     }

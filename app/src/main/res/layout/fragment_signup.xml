@@ -6,26 +6,35 @@
     android:orientation="vertical">
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Enter Name"
-        android:id="@+id/newName"/>
+        android:id="@+id/newName"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        />
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Create Username"
-        android:id="@+id/newUserName"/>
+        android:id="@+id/newUserName"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"/>
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Create Password"
         android:inputType="textVisiblePassword"
-        android:id="@+id/newPassword"/>
+        android:id="@+id/newPassword"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Get started"
         android:id="@+id/newSignUp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
         />
 
 

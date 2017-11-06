@@ -21,6 +21,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     FirebaseDatabase database;
     String code;
+    float inc=0.00002f;
 
 
     @Override
@@ -62,10 +63,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 float latt = Float.parseFloat(dataSnapshot.child("Lat").getValue().toString());
                 float longg =Float.parseFloat(dataSnapshot.child("Long").getValue().toString());
                 String name = dataSnapshot.child("Name").getValue().toString();
-
+                latt=latt+inc;
+                inc+=0.00002f;
                 LatLng x=new LatLng(latt,longg);
                 mMap.addMarker(new MarkerOptions().position(x).title(name));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(x));
+
 
 
             }
@@ -91,6 +94,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         // Add a marker in Sydney and move the camera
-
+        mMap.setMinZoomPreference(17.0f);
     }
 }

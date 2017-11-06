@@ -13,7 +13,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher2"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -44,6 +44,15 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
+
+        <receiver android:name=".BatteryLevelReceiver">
+        <intent-filter>
+            <action android:name="android.intent.action.BATTERY_LOW" />
+            <action android:name="android.intent.action.BATTERY_OKAY" />
+        </intent-filter>
+    </receiver>
+
     </application>
+
 
 </manifest>

@@ -8,15 +8,21 @@
     tools:context="com.android.grapper.JoinGroup">
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:hint="Enter Group Code"
-        android:id="@+id/joinCode"/>
+        android:id="@+id/joinCode"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"
+
+        />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Join Group"
-        android:id="@+id/joinGroup2"/>
+        android:id="@+id/joinGroup2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

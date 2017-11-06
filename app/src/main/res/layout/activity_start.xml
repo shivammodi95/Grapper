@@ -6,26 +6,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.android.grapper.StartActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/printName"
-        android:text="Hello!"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/createGroup"
-        android:text="Create a Group"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/joinGroup"
-        android:text="   Join a Group   "/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log Out"
-        android:id="@+id/logOut"/>
+        android:id="@+id/logOut"
+        android:layout_gravity="right"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/printName"
+        android:text="Hello!"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="100px"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/createGroup"
+        android:text="Create a Group"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/joinGroup"
+        android:text="   Join a Group   "
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"/>
+
 
 </LinearLayout>
