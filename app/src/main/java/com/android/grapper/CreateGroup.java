@@ -10,9 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,10 +27,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateGroup extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class CreateGroup extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
     private GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
@@ -49,6 +53,9 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
 
     Button mMapButton;
     Button mLeaveGroup;
+
+    String lat1,long1;
+    public int flagg=0,flagg2=1;
 
 
 
@@ -122,11 +129,36 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
 
                 mRecyclerView.setAdapter(mAdapter);
 
-                //}
-            }
+                if(dataSnapshot.getChildrenCount()!=3) {
+                    flagg++;
+
+                    Toast.makeText(getApplicationContext(), "No Location "+flagg, Toast.LENGTH_SHORT).show();
+                }
+
+                }
+
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                if(dataSnapshot.getChildrenCount()>=3) {
+                    float latt = Float.parseFloat(dataSnapshot.child("Lat").getValue().toString());
+                    float longg = Float.parseFloat(dataSnapshot.child("Long").getValue().toString());
+
+                    LatLng x = new LatLng(latt, longg);
+
+                    Log.d("jkl", "jkl");
+                    float latt2 = Float.parseFloat(lat1);
+                    float longg2 = Float.parseFloat(long1);
+
+
+                    LatLng x2 = new LatLng(latt2, longg2);
+                    if (CalculationByDistance(x, x2) > 1.0) {
+                        Toast.makeText(getApplicationContext(),dataSnapshot.child("Name").getValue().toString()+" is more than a kilometer away", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d("less", "onChildChanged: lesser");
+                    }
+                }
+
 
             }
 
@@ -139,6 +171,10 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
                         x.remove(i);
                     }
                 }
+
+                if(dataSnapshot.getChildrenCount()==1)
+                {flagg--;}
+
                 mAdapter = new MyAdapter(x);
 
                 mRecyclerView.setAdapter(mAdapter);
@@ -186,9 +222,12 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
         mMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CreateGroup.this,MapsActivity.class);
-                i.putExtra("Code",code);
+            if(flagg<=0) {
+                Intent i = new Intent(CreateGroup.this, MapsActivity.class);
+                i.putExtra("Code", code);
                 startActivity(i);
+            }
+            else {Toast.makeText(getApplicationContext(), "User Location off:", Toast.LENGTH_SHORT).show();}
             }
         });
 
@@ -215,6 +254,11 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
         if (mLastLocation != null) {
             myRef.child(mUID).child("Lat").setValue(String.valueOf(mLastLocation.getLatitude()));
             myRef.child(mUID).child("Long").setValue(String.valueOf(mLastLocation.getLongitude()));
+
+            lat1=String.valueOf(mLastLocation.getLatitude());
+            long1=String.valueOf(mLastLocation.getLongitude());
+            flagg--;
+            flagg2--;
         }
     }
 
@@ -238,6 +282,46 @@ public class CreateGroup extends AppCompatActivity implements GoogleApiClient.Co
     }
 
     @Override
+    public void onLocationChanged(Location location){
+        try {
+
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+        }
+        catch (SecurityException e)
+        {}
+        if (mLastLocation != null) {
+            myRef.child(mUID).child("Lat").setValue(String.valueOf(mLastLocation.getLatitude()));
+            myRef.child(mUID).child("Long").setValue(String.valueOf(mLastLocation.getLongitude()));
+
+        }
+    }
+    @Override
     public void onBackPressed(){}
+
+    public double CalculationByDistance(LatLng StartP, LatLng EndP) {
+        int Radius = 6371;// radius of earth in Km
+        double lat1 = StartP.latitude;
+        double lat2 = EndP.latitude;
+        double lon1 = StartP.longitude;
+        double lon2 = EndP.longitude;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
+                * Math.sin(dLon / 2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double valueResult = Radius * c;
+        double km = valueResult / 1;
+        DecimalFormat newFormat = new DecimalFormat("####");
+        int kmInDec = Integer.valueOf(newFormat.format(km));
+        double meter = valueResult % 1000;
+        int meterInDec = Integer.valueOf(newFormat.format(meter));
+        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
+                + " Meter   " + meterInDec);
+
+        return Radius * c;
+    }
 
 }

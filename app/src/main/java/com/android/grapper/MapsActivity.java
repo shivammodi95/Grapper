@@ -9,6 +9,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -16,12 +17,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     FirebaseDatabase database;
     String code;
-    float inc=0.00002f;
+    float inc=0.00000002f;
 
 
     @Override
@@ -51,6 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        final List<MarkerOptions> mMarkers= new ArrayList<MarkerOptions>(1);
 
         DatabaseReference myRef;
         database = FirebaseDatabase.getInstance();
@@ -66,7 +71,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 latt=latt+inc;
                 inc+=0.00002f;
                 LatLng x=new LatLng(latt,longg);
-                mMap.addMarker(new MarkerOptions().position(x).title(name));
+
+                MarkerOptions singleMarker= new MarkerOptions().position(x).title(name);
+                mMarkers.add(singleMarker);
+                mMap.addMarker(singleMarker);
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(x));
 
 
@@ -75,12 +83,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                String namee = dataSnapshot.child("Name").getValue().toString();
+                for(int i=0;i<mMarkers.size();i++)
+                {
+                    if(mMarkers.get(i).getTitle().toString().equals(namee))
+                    {
+                        mMarkers.remove(i);
+                    }
+                }
+                float latt = Float.parseFloat(dataSnapshot.child("Lat").getValue().toString());
+                float longg =Float.parseFloat(dataSnapshot.child("Long").getValue().toString());
+                String name = dataSnapshot.child("Name").getValue().toString();
+                latt=latt+inc;
+                inc+=0.00002f;
+                LatLng x=new LatLng(latt,longg);
 
+                MarkerOptions singleMarker= new MarkerOptions().position(x).title(name);
+                mMarkers.add(singleMarker);
+                mMap.clear();
+                for(int i=0;i<mMarkers.size();i++)
+                {
+                    mMap.addMarker(mMarkers.get(i));
+                }
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                String namee = dataSnapshot.child("Name").getValue().toString();
+                for(int i=0;i<mMarkers.size();i++)
+                {
+                    if(mMarkers.get(i).getTitle().toString().equals(namee))
+                    {
+                        mMarkers.remove(i);
+                    }
+                }
+                mMap.clear();
+                for(int i=0;i<mMarkers.size();i++)
+                {
+                    mMap.addMarker(mMarkers.get(i));
+                }
             }
 
             @Override
@@ -94,6 +135,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         // Add a marker in Sydney and move the camera
-        mMap.setMinZoomPreference(17.0f);
+        //mMap.setMinZoomPreference(6.0f);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
     }
 }

@@ -55,10 +55,13 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 i = new Intent(StartActivity.this, CreateGroup.class);
+
                 i.putExtra("Code",code);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
 
                         startActivity(i);
+                        finish();
 
                     }
         });
@@ -81,7 +84,8 @@ public class StartActivity extends AppCompatActivity {
 
 
     }
-
+    @Override
+    public void onBackPressed(){}
 
 
     String getRndom(){

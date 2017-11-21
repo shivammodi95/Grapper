@@ -1,6 +1,7 @@
 package com.android.grapper;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,10 +24,11 @@ public class JoinGroup extends AppCompatActivity {
     private EditText mJoinCode;
     private Button mJoinGroup;
     String code;
-    String flag="b";
+    int count;
+    String flag;
     FirebaseDatabase database;
     DatabaseReference myRef;
-
+private FirebaseAuth mAuth;
     String mUID;
 
     @Override
@@ -35,10 +38,11 @@ public class JoinGroup extends AppCompatActivity {
 
         mJoinCode=(EditText)findViewById(R.id.joinCode);
         mJoinGroup=(Button)findViewById(R.id.joinGroup2);
-
+flag="b";
         mUID=FirebaseAuth.getInstance().getCurrentUser().getUid();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
+        mAuth=FirebaseAuth.getInstance();
 
 
 
@@ -55,7 +59,7 @@ public class JoinGroup extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                             TextView x= findViewById(R.id.xyz);
-
+                            //Toast.makeText(getApplicationContext(),flag,Toast.LENGTH_SHORT).show();
                             if(code.equals(singleSnapshot.getKey().toString()))
                             {
                                 Intent i=new Intent(JoinGroup.this,CreateGroup.class);
@@ -70,10 +74,19 @@ public class JoinGroup extends AppCompatActivity {
                         }
                         if(flag.equals("b"))
                         {
-
                             TextView x= findViewById(R.id.xyz);
                             x.setText("Code Not found");
-
+                            Toast.makeText(getApplicationContext(),"Code Not Found",Toast.LENGTH_SHORT).show();
+                            count++;
+                        }
+                        if(count==5)
+                        {
+                            count=0;
+                            Toast.makeText(getApplicationContext(),"Please Login Again",Toast.LENGTH_SHORT).show();
+                            mAuth.signOut();
+                            startActivity(new Intent(JoinGroup.this, MainActivity.class));
+                            //finish();
+                            //System.exit(0);
                         }
                     }
                     @Override

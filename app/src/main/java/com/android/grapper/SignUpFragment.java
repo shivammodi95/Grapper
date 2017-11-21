@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ import static android.content.ContentValues.TAG;
  * Created by saraf on 10/18/2017.
  */
 
-public class SignUpFragment extends android.support.v4.app.Fragment {
+public class SignUpFragment  extends android.support.v4.app.Fragment {
 
     private FirebaseAuth mAuth;
     private EditText mNewName;
@@ -39,6 +40,10 @@ public class SignUpFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+
+    }
+
+    public void onBackPressed(){
 
     }
 
@@ -95,6 +100,7 @@ public class SignUpFragment extends android.support.v4.app.Fragment {
 
         return v;
     }
+
 
 
 }

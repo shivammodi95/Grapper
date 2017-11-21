@@ -13,7 +13,7 @@ public class BatteryLevelReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        Toast.makeText(context, "BAttery's dying!!", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Battery's dying!!", Toast.LENGTH_LONG).show();
         Log.e("", "BATTERY LOW!!");
     }
 }
